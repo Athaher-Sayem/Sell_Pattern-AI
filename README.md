@@ -10,18 +10,29 @@
   <img src="https://img.shields.io/badge/Data-Pandas-green?style=for-the-badge">
   <img src="https://img.shields.io/badge/Visualization-Matplotlib-red?style=for-the-badge">
 </p>
+---
+
+## 🌐 Live Homepage
+
+Check out the project homepage that shows how the SmartCart Buy Pattern AI works:
+
+[https://athaher-sayem.github.io/Sell_Pattern-AI/](https://athaher-sayem.github.io/Sell_Pattern-AI/)
+
+The homepage walks through the full pipeline — from loading customer data, through preprocessing and feature engineering, to the unsupervised learning model and visualization.
+
+> **Note:** The homepage is saved as `index.html` in the root of this repository. To view it live, enable GitHub Pages (Settings → Pages → Deploy from branch → main / root), then open the link above.
 
 ---
 
 ## 📌 Overview  
 SmartCart Buy Pattern AI is a machine learning project that analyzes customer purchase behavior and predicts buying patterns.  
 
-It helps to understand:  
+It helps to understand:
 - 🛍️ What customers buy  
 - ⏰ When they buy  
 - 🔁 How often they buy  
 
-This can improve:  
+This can improve:
 - 🎯 Product recommendations  
 - 📈 Sales strategies  
 - 💡 Customer experience  
@@ -61,7 +72,7 @@ This can improve:
 
 ## 📊 Dataset  
 
-The dataset contains customer shopping data such as:  
+The dataset contains customer shopping data such as:
 - Customer ID  
 - Purchase frequency  
 - Product categories  
