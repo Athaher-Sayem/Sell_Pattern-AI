@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartCart Buy Pattern AI</title>
+<style>
+:root{--bg:#070b14;--bg2:#0b1120;--card:#111830;--border:#1f2b4d;--text:#e8edf8;--muted:#93a0bf;--accent:#6366f1;--accent2:#8b5cf6;--accent3:#22d3ee;--grad:linear-gradient(135deg,#6366f1,#8b5cf6 55%,#ec4899)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 600px at 80% -10%,rgba(99,102,241,.18),transparent 60%),radial-gradient(900px 500px at -10% 20%,rgba(34,211,238,.10),transparent 55%),var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.65}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(7,11,20,.78);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:20px;font-weight:800;letter-spacing:.3px}
+.brand span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:600}
+.nav-links a:hover{color:var(--text)}
+.hero{max-width:1120px;margin:0 auto;padding:150px 24px 80px;text-align:center}
+.hero-badge{display:inline-block;padding:8px 16px;border:1px solid var(--border);border-radius:999px;background:rgba(99,102,241,.10);color:#c7d2fe;font-size:13px;font-weight:700;letter-spacing:.4px}
+.hero h1{font-size:clamp(42px,7vw,76px);line-height:1.05;font-weight:900;margin:22px 0 18px;letter-spacing:-1px}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tagline{max-width:740px;margin:0 auto;color:var(--muted);font-size:clamp(16px,2.4vw,20px)}
+.cta{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 26px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;transition:.2s}
+.btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px rgba(139,92,246,.35)}
+.btn.primary:hover{transform:translateY(-2px)}
+.btn.ghost{border:1px solid var(--border);color:var(--text);background:var(--card)}
+.btn.ghost:hover{border-color:var(--accent)}
+section{padding:70px 24px}
+.wrap{max-width:1120px;margin:0 auto}
+.sec-head{text-align:center;max-width:760px;margin:0 auto 46px}
+.sec-head .kicker{color:var(--accent3);font-weight:800;font-size:13px;letter-spacing:2px;text-transform:uppercase}
+.sec-head h2{font-size:clamp(30px,4.5vw,44px);font-weight:900;margin:12px 0 14px;letter-spacing:-.8px}
+.sec-head p{color:var(--muted);font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1120px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px}
+.card h3{font-size:20px;font-weight:800;margin:14px 0 10px}
+.card p{color:var(--muted);font-size:15px}
+.card .icon{font-size:34px}
+.stats{max-width:1120px;margin:0 auto;padding:0 24px 70px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
+.stat .num{font-size:34px;font-weight:900;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat .lbl{color:var(--muted);font-size:14px;margin-top:4px}
+#how .grid{max-width:1120px;margin:0 auto}
+.step{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px;position:relative;overflow:hidden}
+.step::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+.step .icon{font-size:34px}
+.step h3{font-size:20px;font-weight:800;margin:14px 0 10px}
+.step p{color:var(--muted);font-size:15px}
+.mono{font-family:Consolas,"Courier New",monospace;background:rgba(34,211,238,.08);border:1px solid var(--border);padding:2px 8px;border-radius:8px;font-size:13px;color:#a5f3fc}
+.flow{display:flex;align-items:stretch;justify-content:center;gap:10px;flex-wrap:wrap;max-width:1120px;margin:0 auto}
+.flow .box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;min-width:150px;text-align:center;font-weight:700}
+.flow .box small{display:block;color:var(--muted);font-weight:500;margin-top:6px;font-size:12px}
+.flow .arrow{color:var(--accent2);font-size:26px;font-weight:900}
+.badge{background:var(--card);border:1px solid var(--border);padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px}
+pre{background:#0a0f1e;border:1px solid var(--border);border-radius:14px;padding:22px;overflow-x:auto;font-family:Consolas,"Courier New",monospace;font-size:14px;color:#a5f3fc}
+footer{border-top:1px solid var(--border);padding:40px 24px;text-align:center;color:var(--muted);background:var(--bg2)}
+footer a{color:#c7d2fe}
+@media (max-width:640px){.nav-links{display:none}}
+</style>
+</head>
+<body>
+<nav>
+<div class="nav-inner">
+<div class="brand">🛒 SmartCart <span>Buy Pattern AI</span></div>
+<div class="nav-links">
+<a href="#overview">Overview</a>
+<a href="#how">How It Works</a>
+<a href="#results">Results</a>
+<a href="#tech">Tech</a>
+<a href="#run">Run</a>
+</div>
+</div>
+</nav>
+
+<header class="hero">
+<div class="hero-badge">🤖 Unsupervised Machine Learning · Discovering Buying Patterns</div>
+<h1>SmartCart <span class="grad">Buy Pattern AI</span></h1>
+<p class="tagline">Uncovering hidden customer buying patterns with unsupervised learning — so you can understand what customers buy, when they buy, and how often they buy.</p>
+<div class="cta">
+<a class="btn primary" href="#how">See How It Works</a>
+<a class="btn ghost" href="https://github.com/Athaher-Sayem/Sell_Pattern-AI">GitHub Repository</a>
+</div>
+</header>
+
+<section class="stats">
+<div class="stat"><div class="num">2,240+</div><div class="lbl">Customers analyzed</div></div>
+<div class="stat"><div class="num">22+</div><div class="lbl">Behavioral features</div></div>
+<div class="stat"><div class="num">6</div><div class="lbl">Spend categories</div></div>
+<div class="stat"><div class="num">1</div><div class="lbl">Model · K-Means</div></div>
+</section>
+
+<main>
+<section id="overview">
+<div class="sec-head">
+<div class="kicker">Overview</div>
+<h2>What SmartCart Buy Pattern AI Does</h2>
+<p>SmartCart Buy Pattern AI is a machine learning project that analyzes customer purchase behavior and predicts buying patterns. It helps to understand what customers buy, when they buy, and how often they buy — and this can improve product recommendations, sales strategies, and customer experience.</p>
+</div>
+<div class="grid">
+<div class="card">
+<div class="icon">🧠</div>
+<h3>Discovers Hidden Segments</h3>
+<p>Uses unsupervised learning with K-Means clustering to automatically group customers into natural buying-pattern segments based on their spending behavior.</p>
+</div>
+<div class="card">
+<div class="icon">📊</div>
+<h3>Turns Data Into Behavior</h3>
+<p>Transforms raw shopping data into interpretable signals — what customers buy, when they buy, and how often they buy across product categories.</p>
+</div>
+<div class="card">
+<div class="icon">🎯</div>
+<h3>Improves Decisions</h3>
+<p>Feeds pattern insights into product recommendations, sales strategies, and customer experience improvements.</p>
+</div>
+</div>
+</section>
+
+<section id="how">
+<div class="sec-head">
+<div class="kicker">How It Works</div>
+<h2>From Raw Data to Buying Patterns</h2>
+<p>A simple five-step unsupervised pipeline that turns customer shopping data into actionable buying-pattern insights.</p>
+</div>
+<div class="grid">
+<div class="step">
+<div class="icon">📥</div>
+<h3>1. Load the Data</h3>
+<p>Start with customer shopping behavior data — purchase frequency, product categories, and buying patterns — loaded from the customer dataset.</p>
+</div>
+<div class="step">
+<div class="icon">🧹</div>
+<h3>2. Clean and Preprocess</h3>
+<p>Handle missing values, encode categorical fields, and drop columns that are not relevant for pattern analysis.</p>
+</div>
+<div class="step">
+<div class="icon">⚙️</div>
+<h3>3. Engineer Features</h3>
+<p>Create analysis features such as Age, Customer Tenure, and Total Spending, which is the sum of all product-category spends.</p>
+</div>
+<div class="step">
+<div class="icon">🔵</div>
+<h3>4. Unsupervised Learning</h3>
+<p>Standardize the features and fit a K-Means clustering model to automatically discover hidden customer buying groups — no labels required.</p>
+</div>
+<div class="step">
+<div class="icon">📊</div>
+<h3>5. Visualize and Interpret</h3>
+<p>Plot the clusters, review cluster summaries, and interpret what each buying pattern means for the business.</p>
+</div>
+</div>
+</section>
+
+<section id="arch">
+<div class="sec-head">
+<div class="kicker">Pipeline</div>
+<h2>The Architecture</h2>
+</div>
+<div class="flow">
+<div class="box">Customer Data<br/><small>smartcart_customers.csv</small></div>
+<div class="arrow">→</div>
+<div class="box">Preprocess<br/><small>Clean + encode</small></div>
+<div class="arrow">→</div>
+<div class="box">Feature Eng<br/><small>Total Spending, Age…</small></div>
+<div class="arrow">→</div>
+<div class="box">Scale + K-Means<br/><small>Unsupervised cluster</small></div>
+<div class="arrow">→</div>
+<div class="box">Visualize<br/><small>Clusters + insights</small></div>
+</div>
+</section>
+
+<section id="results">
+<div class="sec-head">
+<div class="kicker">Results</div>
+<h2>From Clusters to Actionable Insights</h2>
+<p>Once customers are grouped into buying patterns, those clusters become the foundation for smarter business decisions.</p>
+</div>
+<div class="grid">
+<div class="card">
+<div class="icon">🔍</div>
+<h3>Discovering Segments</h3>
+<p>Unsupervised clustering surfaces customer segments that were previously hidden inside raw purchase data.</p>
+</div>
+<div class="card">
+<div class="icon">📈</div>
+<h3>Understanding Behavior</h3>
+<p>Cluster-level statistics help explain how spending, frequency, and preferences differ across customer groups.</p>
+</div>
+<div class="card">
+<div class="icon">🚀</div>
+<h3>Driving Decisions</h3>
+<p>Actionable buying-pattern insights feed product recommendations, sales strategies, and customer experience improvements.</p>
+</div>
+</div>
+</section>
+</main>
+
+<section id="tech">
+<div class="sec-head">
+<div class="kicker">Tech Stack</div>
+<h2>Built With</h2>
+</div>
+<div class="badges">
+<div class="badge">🐍 Python 3.x</div>
+<div class="badge">📊 Pandas</div>
+<div class="badge">🔢 NumPy</div>
+<div class="badge">🤖 Scikit-learn</div>
+<div class="badge">📉 Matplotlib</div>
+<div class="badge">🌊 Seaborn</div>
+<div class="badge">📓 Jupyter Notebook</div>
+</div>
+</section>
+
+<section id="run">
+<div class="sec-head">
+<div class="kicker">Get Started</div>
+<h2>How to Run</h2>
+</div>
+<pre>Pip install pandas numpy scikit-learn matplotlib seaborn
+
+Jupyter notebook
+
+Open the notebooks:
+
+BuyPattern_AI.ipynb
+BuyPatternTest.ipynb</pre>
+</section>
+
+<footer>
+<p>🛒 SmartCart Buy Pattern AI</p>
+<p>Built with love by Athaher Sayem — CSE Student | Competitive Programmer | Future Full Stack Developer</p>
+<p><a href="https://github.com/Athaher-Sayem/Sell_Pattern-AI">GitHub Repository</a></p>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id = a.getAttribute('href');
+    const el = document.querySelector(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
